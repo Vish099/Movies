@@ -1,0 +1,75 @@
+/* CARD */
+
+.card-body{
+    width: 450px;
+    height: 100%;
+    background-color: white;
+    border: 4px solid lightblue;
+  display: flex;
+  flex-direction: column;
+}
+
+.head-card-body{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.vote{
+    text-align: center;
+    flex-grow: 0.3;
+    padding-right: 10px;
+}
+
+.vote-num{
+    margin-bottom: 0;
+}
+
+.vote-cta{
+    font-size: 23px;
+}
+
+.movie-img{
+    width: 150px;
+    height: 100%;
+    flex-grow: 2;
+}
+
+.key{
+    color: grey;
+    font-size: 15px;
+    padding-right: 8px;
+}
+
+.movie-length{
+    font-size: 15px;
+}
+
+.movie-votes{
+    font-size: 14px;
+    color: rgb(95, 178, 206);
+}
+
+.value{
+    color: black;
+    font-size: 15px;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    flex-grow: 1;
+}
+
+.movie-name{
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 23px;
+}
+
+.watch-trailer{
+    width: 100%;
+    margin-top: 20px;
+    color: white;
+}

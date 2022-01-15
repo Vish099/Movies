@@ -18,7 +18,7 @@ pauseOnFocusLoss
 draggable
 pauseOnHover
 />
-    <Router>
+    <Router basename="/">
       <Routes>
       <Route exact path='/' element={<Login />} />
 

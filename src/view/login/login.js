@@ -4,22 +4,24 @@ import "./login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Helmet from "react-helmet";
-import {toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AiFillEye } from "react-icons/ai";
 
 function Login() {
   const [active, setActive] = useState(false);
   const [LoginDetails, setLoginDetails] = useState({
-email :"",
-password:""
-  })
+    email: "",
+    password: "",
+  });
   const [SignUp, setSignUp] = useState({
     username: "",
     password: "",
     email: "",
     phoneNum: "",
   });
-
+  const [visible, setvisible] = useState(false);
+  const [visibleTwo, setvisibleTwo] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,32 +33,42 @@ password:""
     setActive(false);
   }
 
-  function StoreSignUp(e) {
- if(!SignUp.username || !SignUp.email || !SignUp.phoneNum || !SignUp.password){
-  toast.error("Fields marked with * are required to fill")
-  e.preventDefault();
- }else{
-  localStorage.setItem("userName",SignUp.username)
-  localStorage.setItem("userMail",SignUp.email)
-  localStorage.setItem("userPass",SignUp.password)
-  localStorage.setItem("userNum",SignUp.phoneNum)
-  window.location.reload();
-  toast.success("Sign Up successfully")
-  e.preventDefault();
- }
+  function Refresh() {
+    window.location.reload();
   }
 
+  function StoreSignUp(e) {
+    if (
+      !SignUp.username ||
+      !SignUp.email ||
+      !SignUp.phoneNum ||
+      !SignUp.password
+    ) {
+      toast.error("Fields marked with * are required to fill");
+      e.preventDefault();
+    } else {
+      localStorage.setItem("userName", SignUp.username);
+      localStorage.setItem("userMail", SignUp.email);
+      localStorage.setItem("userPass", SignUp.password);
+      localStorage.setItem("userNum", SignUp.phoneNum);
+      toast.success("Sign Up successfully");
+      setTimeout(Refresh, 3000);
+      e.preventDefault();
+    }
+  }
 
-function LoginSuccess(e) {
-    
-    if(LoginDetails.email === localStorage.getItem("userMail") && LoginDetails.password === localStorage.getItem("userPass") ){
-  navigate("/home")
-  toast.success("Login successfully")
-    }else{
-        toast.error("Wrong Credentials")
+  function LoginSuccess(e) {
+    if (
+      LoginDetails.email === localStorage.getItem("userMail") &&
+      LoginDetails.password === localStorage.getItem("userPass")
+    ) {
+      navigate("/home");
+      toast.success("Login successfully");
+    } else {
+      toast.error("Wrong Credentials");
     }
     e.preventDefault();
-}
+  }
 
   return (
     <div className="container">
@@ -96,23 +108,33 @@ function LoginSuccess(e) {
 
       <div id="first" className={`formBx ${active ? "check" : ""}`}>
         <div id="second" className={`form signedform ${active ? "check" : ""}`}>
-          <form>
+          <form autoComplete="null">
             <h3>Sign In</h3>
-            <input type="text" placeholder="Username" onChange={(e) => setLoginDetails({...LoginDetails,email: e.target.value})}  />
-            <input type="password" placeholder="Password" onChange={(e) => setLoginDetails({...LoginDetails,password: e.target.value})} />
             <input
-              type="submit"
-              value="Login"
-              onClick={LoginSuccess}
+              type="text"
+              placeholder="Username"
+              onChange={(e) =>
+                setLoginDetails({ ...LoginDetails, email: e.target.value })
+              }
             />
-            <a href="h" className="forgot">
-              Forgot Password{" "}
-            </a>
+            <input
+              type={!visible ? "password" : "text"}
+              style={{ position: "relative" }}
+              placeholder="Password"
+              onChange={(e) =>
+                setLoginDetails({ ...LoginDetails, password: e.target.value })
+              }
+            />
+            <AiFillEye
+              style={{ position: "absolute", top: "180px", right: "70px" }}
+              onClick={() => setvisible(!visible)}
+            />
+            <input type="submit" value="Login" onClick={LoginSuccess} />
           </form>
         </div>
 
         <div className={`form Nsignedform ${active ? "check" : ""}`}>
-          <form>
+          <form autoComplete="off">
             <h3>Sign Up</h3>
             <input
               type="text"
@@ -124,25 +146,30 @@ function LoginSuccess(e) {
             />
             <input
               type="text"
-              placeholder="Email Address *"
-              autoComplete="new-mail"
-              onChange={(e) => setSignUp({ ...SignUp, email: e.target.value })}
-            />
-            <input
-              type="text"
               placeholder="Phone Number *"
-              autoComplete="new-num"
+              autoComplete="new-mail"
               onChange={(e) =>
                 setSignUp({ ...SignUp, phoneNum: e.target.value })
               }
             />
             <input
-              type="password"
+              type="text"
+              placeholder="Email Address *"
+              autoComplete="off"
+              onChange={(e) => setSignUp({ ...SignUp, email: e.target.value })}
+            />
+            <input
+              type={visibleTwo ? "text" : "password"}
               placeholder="Password *"
-              autoComplete="new-pass"
+              autoComplete="on"
               onChange={(e) =>
                 setSignUp({ ...SignUp, password: e.target.value })
               }
+              style={{position:"relative"}}
+            />
+              <AiFillEye
+              style={{ position: "absolute", top: "310px", right: "70px" }}
+              onClick={() => setvisibleTwo(!visibleTwo)}
             />
             <input type="submit" value="Register" onClick={StoreSignUp} />
           </form>
